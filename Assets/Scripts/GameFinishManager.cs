@@ -8,7 +8,7 @@ public class GameFinishManager : MonoBehaviour
 
     void Start()
     {
-        // เริ่มเกมมา ซ่อนหน้าต่างจบเกมไว้ก่อน
+        // ซ่อนหน้าต่างจบเกมตอนเริ่ม
         if (finishPanel != null)
         {
             finishPanel.SetActive(false);
@@ -26,18 +26,17 @@ public class GameFinishManager : MonoBehaviour
                 finishPanel.SetActive(true);
             }
 
-            // หยุดเวลาให้รถเบรกกึกทันที
+            // หยุดเวลาให้รถเบรกทันที
             Time.timeScale = 0f;
         }
     }
 
-    // ฟังก์ชันนี้เอาไว้ใส่ที่ปุ่ม "View Credits"
     public void GoToCredits()
     {
-        // ต้องสั่งให้เวลาเดินกลับเป็นปกติก่อนโหลดหน้าใหม่ ไม่งั้นหน้าต่อไปจะค้าง
+        // ต้องสั่งให้เวลาเดินกลับเป็นปกติก่อนโหลดหน้าใหม่ ไม่งั้นหน้าต่อไปจะค้าง อ่านด้วยอีเวง
         Time.timeScale = 1f;
 
-        // โหลดไปหน้าเครดิต (พิมพ์ชื่อ Scene ให้ตรงกับที่คุณเซฟไว้นะครับ)
+        // โหลดไปหน้าเครดิต
         SceneManager.LoadScene("Credit");
     }
 }

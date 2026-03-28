@@ -5,35 +5,35 @@ public class AutoRunCar : MonoBehaviour
 {
     private Rigidbody rb;
 
-    [Header("UI หลอดสถานะ")]
+    [Header("UI Car")]
     public Slider speedBar;
     public Image speedBarFill;
     public Gradient speedColors;
     public Slider cooldownBar;
 
-    [Header("ตั้งค่าความเร็ว")]
+    [Header("Speed Setting")]
     public float baseSpeed = 1000f;
     public float boostSpeed = 500f;
     public float brakePower = 600f;
     public float minSpeed = 300f;
     public float strafeSpeed = 800f;
 
-    [Header("ระบบยิงกันชน")]
+    [Header("Shooting System")]
     public GameObject bumperPrefab;
     public Transform shootPoint;
     public float fireRate = 10f;
     private float nextFireTime = 0f;
 
-    [Header("ระบบตกถนน (ใหม่!)")]
-    public float fallThreshold = -5f; // ถ้ารถหล่นไปต่ำกว่าแกน Y ที่ -5 จะให้วาร์ปกลับ
-    private Vector3 startPos;         // ตัวแปรจำตำแหน่งเกิด
-    private Quaternion startRot;      // ตัวแปรจำองศาการหันหน้าตอนเกิด
+    [Header("Dead Setting")]
+    public float fallThreshold = -5f; // ถ้ารถร่วงไปต่ำกว่าแกน Y ที่ตั้งไว้จะให้วาร์ปกลับ
+    private Vector3 startPos;         // ตำแหน่งเกิด
+    private Quaternion startRot;      // การหันหน้าของรถตอนเกิด
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
 
-        // 1. ให้จำตำแหน่งและทิศทางของรถตอนเริ่มเกมไว้ทันที
+        //จุดเริ่มของตำแหน่งและทิศทางรถตอนเริ่มเกม
         startPos = transform.position;
         startRot = transform.rotation;
 
@@ -46,13 +46,13 @@ public class AutoRunCar : MonoBehaviour
 
     void Update()
     {
-        // เช็คระบบตกถนน: ถ้าตำแหน่ง Y ของรถต่ำกว่าที่กำหนด ให้เรียกฟังก์ชัน Respawn
+        // ถ้าตำแหน่ง Y ของรถต่ำกว่าที่ตั้งไว้ เรียกฟังก์ชัน Respawn
         if (transform.position.y < fallThreshold)
         {
             RespawnCar();
         }
 
-        // --- (โค้ดระบบยิงและ UI เหมือนเดิมทุกอย่าง) ---
+        // ระบบยิงและ UI
         if (Input.GetButtonDown("Jump") && Time.time >= nextFireTime)
         {
             ShootBumper();
@@ -72,18 +72,15 @@ public class AutoRunCar : MonoBehaviour
         }
     }
 
-    // ฟังก์ชันวาร์ปกลับจุดเกิด (โชว์การจัดการ Rigidbody)
+    // ฟังก์ชันวาร์ปกลับจุดเกิดเมื่อรถตกถนน
     void RespawnCar()
     {
-        // 1. จับวางที่ตำแหน่งและองศาเดิม
         transform.position = startPos;
         transform.rotation = startRot;
-
-        // 2. ล้างแรงฟิสิกส์ทั้งหมดที่สะสมมา ไม่งั้นวาร์ปมาปุ๊บรถจะปลิวต่อ
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        Debug.Log("ตกถนน! วาร์ปกลับจุดเกิดเรียบร้อย");
+        Debug.Log("ตกถนน กลับจุดเกิด");
     }
 
     void ShootBumper()

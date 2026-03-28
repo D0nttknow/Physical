@@ -7,37 +7,34 @@ public class TutorialTrigger : MonoBehaviour
 
     void Start()
     {
-        // เริ่มเกมมา ให้ซ่อนหน้าต่างนี้ไว้ก่อน
         if (tutorialPanel != null)
         {
             tutorialPanel.SetActive(false);
         }
     }
 
-    // ทำงานเมื่อรถวิ่งมาชนกำแพงล่องหน
+    // ทำงานเมื่อรถวิ่งมาชนกำแพง
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             if (tutorialPanel != null)
             {
-                tutorialPanel.SetActive(true); // 1. เปิดหน้าต่าง Panel ดำๆ ขึ้นมา
-                Time.timeScale = 0f;           // 2. 🚨 สั่งหยุดเวลาในเกม! (รถจะเบรกหัวทิ่มทันที)
+                tutorialPanel.SetActive(true); 
+                Time.timeScale = 0f;           
             }
         }
     }
 
-    // ฟังก์ชันนี้เราจะเอาไปผูกกับ "ปุ่มกด" ในหน้าจอ
+    // ฟังก์ชันนี้เอาไปผูกกับ ปุ่มกด
     public void ResumeGame()
     {
         if (tutorialPanel != null)
         {
-            tutorialPanel.SetActive(false); // 1. ซ่อนหน้าต่างสอนเล่น
+            tutorialPanel.SetActive(false);
         }
 
-        Time.timeScale = 1f; // 2. 🚨 สั่งให้เวลาเดินตามปกติ! (รถวิ่งต่อ)
-
-        // 3. ทำลายกำแพงล่องหนนี้ทิ้ง จะได้ไม่โดนซ้ำ
+        Time.timeScale = 1f;
         Destroy(gameObject);
     }
 }
